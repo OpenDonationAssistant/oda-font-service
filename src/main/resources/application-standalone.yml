@@ -1,0 +1,11 @@
+logger:
+  levels:
+    io.github.opendonationassistant: INFO
+endpoints:
+  all:
+    enabled: true
+    sensitive: false
+  health:
+    details-visible: ANONYMOUS
+  loggers:
+    write-sensitive: false

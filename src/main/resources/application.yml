@@ -1,0 +1,17 @@
+micronaut:
+  application:
+    name: oda-font-service
+  security:
+    authentication: bearer
+    token:
+      bearer:
+        enabled: true
+      cookie:
+        enabled: true
+      jwt:
+        signatures:
+          jwks:
+            keycloak:
+              url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
+  http.services.fontsource.url: https://api.fontsource.org
+infinispan.url: ${INFINISPAN_HOST:`127.0.0.1`}
