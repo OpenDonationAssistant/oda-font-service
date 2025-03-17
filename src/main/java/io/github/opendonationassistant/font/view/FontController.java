@@ -20,7 +20,9 @@ public class FontController {
     "steelfish-regular",
     Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Rg.otf"),
     "steelfish-outline",
-    Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Outline.otf")
+    Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Outline.otf"),
+    "zrnic-regular",
+    Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf")
   );
 
   @Inject
