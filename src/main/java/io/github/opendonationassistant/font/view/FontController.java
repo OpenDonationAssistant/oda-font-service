@@ -24,7 +24,7 @@ public class FontController {
     "zrnic-regular",
     Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf"),
     "doom",
-    Map.of("truetype", "http://cdn.oda.digital/fonts/Doom2016Text-GOlBq.ttf")
+    Map.of("truetype", "https://cdn.oda.digital/fonts/Doom2016Text-GOlBq.ttf")
   );
 
   @Inject
