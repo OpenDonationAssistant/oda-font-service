@@ -22,7 +22,9 @@ public class FontController {
     "steelfish-outline",
     Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Outline.otf"),
     "zrnic-regular",
-    Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf")
+    Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf"),
+    "doom",
+    Map.of("truetype", "http://cdn.oda.digital/fonts/Doom2016Text-GOlBq.ttf")
   );
 
   @Inject
