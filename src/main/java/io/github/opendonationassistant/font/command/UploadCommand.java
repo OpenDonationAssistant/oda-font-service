@@ -26,12 +26,8 @@ public class UploadCommand {
     consumes = { MediaType.MULTIPART_FORM_DATA },
     produces = { MediaType.TEXT_PLAIN }
   )
-  public void put(
-    @PathVariable String name,
-    @Nullable @QueryValue("public") Boolean isPublic,
-    CompletedFileUpload file,
-    Authentication auth
-  ) throws Exception {
+  public void put(CompletedFileUpload file, Authentication auth)
+    throws Exception {
     var parser = new TTFParser();
     final TrueTypeFont font = parser.parseEmbedded(file.getInputStream());
     font.getName();
