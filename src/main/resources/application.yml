@@ -15,3 +15,7 @@ micronaut:
               url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
   http.services.fontsource.url: https://api.fontsource.org
 infinispan.url: ${INFINISPAN_HOST:`127.0.0.1`}
+minio:
+  endpoint: '${MINIO_ENDPOINT}'
+  username: '${MINIO_USERNAME}'
+  password: '${MINIO_PASSWORD}'
