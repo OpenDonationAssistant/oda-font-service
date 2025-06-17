@@ -22,7 +22,7 @@ import org.apache.fontbox.ttf.TrueTypeFont;
 @Controller
 public class UploadCommand extends BaseController {
 
-  private final ODALogger log = new ODALogger(this);
+  private final ODALogger log = new ODALogger(UploadCommand.class);
   private final MinioClient minio;
 
   @Inject

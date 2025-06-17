@@ -14,11 +14,9 @@ public class MinioConfiguration {
     @Value("${minio.username}") String username,
     @Value("${minio.password}") String password
   ) {
-    return MinioClient
-      .builder()
+    return MinioClient.builder()
       .endpoint(endpoint)
       .credentials(username, password)
       .build();
   }
 }
-
