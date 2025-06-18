@@ -3,6 +3,7 @@ package io.github.opendonationassistant.font.command;
 import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
+import io.github.opendonationassistant.font.repository.FontRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -25,10 +26,12 @@ public class UploadCommand extends BaseController {
 
   private final ODALogger log = new ODALogger(UploadCommand.class);
   private final MinioClient minio;
+  private final FontRepository repository;
 
   @Inject
-  public UploadCommand(MinioClient minio) {
+  public UploadCommand(MinioClient minio, FontRepository repository) {
     this.minio = minio;
+    this.repository = repository;
   }
 
   @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -79,7 +82,13 @@ public class UploadCommand extends BaseController {
       );
     }
 
-    return HttpResponse.ok(new UploadCommandResponse("/fonts/" + name));
+    repository.create(
+      font.getName(),
+      ownerId.get(),
+      "https://api.oda.digital/files/%s".formatted(name)
+    );
+
+    return HttpResponse.ok(new UploadCommandResponse(name));
   }
 
   @Serdeable

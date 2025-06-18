@@ -40,5 +40,4 @@ public class FontCommandController {
   public void refresh(@Body RefreshCommand command) {
     command.executeOn(fontsource, fontsCache);
   }
-
 }
