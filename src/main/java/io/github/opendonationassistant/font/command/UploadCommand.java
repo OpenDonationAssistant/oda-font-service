@@ -45,15 +45,17 @@ public class UploadCommand extends BaseController {
     var parser = new TTFParser();
     byte[] data = file.getInputStream().readAllBytes();
 
-    final TrueTypeFont font = parser.parseEmbedded(new ByteArrayInputStream(data));
+    final TrueTypeFont font = parser.parseEmbedded(
+      new ByteArrayInputStream(data)
+    );
     log.info("Uploading font", Map.of("name", font.getName()));
 
     var name = Generators.timeBasedEpochGenerator().generate().toString();
     try (var stream = new ByteArrayInputStream(data)) {
       minio.putObject(
         PutObjectArgs.builder()
-          .bucket("%s/fonts".formatted(ownerId.get()))
-          .object(name)
+          .bucket(ownerId.get())
+          .object("/fonts/" + name)
           .contentType(MediaType.APPLICATION_OCTET_STREAM)
           .stream(stream, stream.available(), -1)
           .build()
