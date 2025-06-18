@@ -43,11 +43,13 @@ public class UploadCommand extends BaseController {
       return HttpResponse.unauthorized();
     }
     var parser = new TTFParser();
-    final TrueTypeFont font = parser.parseEmbedded(file.getInputStream());
-    log.info("Uploading font", Map.of("name", font.getName()));
-    var name = Generators.timeBasedEpochGenerator().generate().toString();
+    byte[] data = file.getInputStream().readAllBytes();
 
-    try (var stream = new ByteArrayInputStream(file.getBytes())) {
+    final TrueTypeFont font = parser.parseEmbedded(new ByteArrayInputStream(data));
+    log.info("Uploading font", Map.of("name", font.getName()));
+
+    var name = Generators.timeBasedEpochGenerator().generate().toString();
+    try (var stream = new ByteArrayInputStream(data)) {
       minio.putObject(
         PutObjectArgs.builder()
           .bucket("%s/fonts".formatted(ownerId.get()))
