@@ -11,6 +11,7 @@ import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.serde.annotation.Serdeable;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;
@@ -36,7 +37,7 @@ public class UploadCommand extends BaseController {
     consumes = { MediaType.MULTIPART_FORM_DATA },
     produces = { MediaType.TEXT_PLAIN }
   )
-  public HttpResponse put(CompletedFileUpload file, Authentication auth)
+  public HttpResponse<UploadCommandResponse> put(CompletedFileUpload file, Authentication auth)
     throws Exception {
     var ownerId = getOwnerId(auth);
     if (ownerId.isEmpty()) {
@@ -60,8 +61,12 @@ public class UploadCommand extends BaseController {
           .stream(stream, stream.available(), -1)
           .build()
       );
+      log.info("Font uploaded", Map.of("recipientId", ownerId.get(), "path", "/fonts/" + name, "name", font.getName()));
     }
 
-    return HttpResponse.ok();
+    return HttpResponse.ok(new UploadCommandResponse("/fonts/"+name));
   }
+
+  @Serdeable
+  public static record UploadCommandResponse(String path){}
 }
