@@ -35,10 +35,12 @@ public class UploadCommand extends BaseController {
   @Put(
     value = "/fonts/commands/upload",
     consumes = { MediaType.MULTIPART_FORM_DATA },
-    produces = { MediaType.TEXT_PLAIN }
+    produces = { MediaType.APPLICATION_JSON }
   )
-  public HttpResponse<UploadCommandResponse> put(CompletedFileUpload file, Authentication auth)
-    throws Exception {
+  public HttpResponse<UploadCommandResponse> put(
+    CompletedFileUpload file,
+    Authentication auth
+  ) throws Exception {
     var ownerId = getOwnerId(auth);
     if (ownerId.isEmpty()) {
       return HttpResponse.unauthorized();
@@ -49,24 +51,37 @@ public class UploadCommand extends BaseController {
     final TrueTypeFont font = parser.parseEmbedded(
       new ByteArrayInputStream(data)
     );
-    log.info("Uploading font", Map.of("name", font.getName()));
+    log.info("Uploading font", Map.of("family", font.getName()));
 
-    var name = Generators.timeBasedEpochGenerator().generate().toString();
+    var name =
+      "%s.ttf".formatted(
+          Generators.timeBasedEpochGenerator().generate().toString()
+        );
     try (var stream = new ByteArrayInputStream(data)) {
       minio.putObject(
         PutObjectArgs.builder()
           .bucket(ownerId.get())
-          .object("/fonts/" + name)
+          .object(name)
           .contentType(MediaType.APPLICATION_OCTET_STREAM)
           .stream(stream, stream.available(), -1)
           .build()
       );
-      log.info("Font uploaded", Map.of("recipientId", ownerId.get(), "path", "/fonts/" + name, "name", font.getName()));
+      log.info(
+        "Font uploaded",
+        Map.of(
+          "recipientId",
+          ownerId.get(),
+          "path",
+          name,
+          "family",
+          font.getName()
+        )
+      );
     }
 
-    return HttpResponse.ok(new UploadCommandResponse("/fonts/"+name));
+    return HttpResponse.ok(new UploadCommandResponse("/fonts/" + name));
   }
 
   @Serdeable
-  public static record UploadCommandResponse(String path){}
+  public static record UploadCommandResponse(String path) {}
 }
