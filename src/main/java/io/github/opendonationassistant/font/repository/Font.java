@@ -29,7 +29,7 @@ public class Font {
   public FontDto asDto() {
     return new FontDto(
       this.data.name(),
-      "stored",
+      "personal",
       Map.of("truetype", this.data.url())
     );
   }
