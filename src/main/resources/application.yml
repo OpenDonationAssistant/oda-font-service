@@ -19,3 +19,8 @@ minio:
   endpoint: '${MINIO_ENDPOINT}'
   username: '${MINIO_USERNAME}'
   password: '${MINIO_PASSWORD}'
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-on-migrate: true
