@@ -5,7 +5,7 @@ import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.MappedProperty;
 import io.micronaut.serde.annotation.Serdeable;
 
-@MappedEntity("font")
+@MappedEntity("personal")
 @Serdeable
 public record FontData(
   @Id String id,
