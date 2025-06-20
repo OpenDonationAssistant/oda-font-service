@@ -83,8 +83,8 @@ public class UploadCommand extends BaseController {
     }
 
     repository.create(
-      font.getName(),
       ownerId.get(),
+      font.getName(),
       "https://api.oda.digital/files/%s".formatted(name)
     );
 

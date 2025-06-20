@@ -15,7 +15,7 @@ public class FontRepository {
     this.dataRepository = dataRepository;
   }
 
-  public Font create(String name, String url, String recipientId) {
+  public Font create(String recipientId, String name, String url) {
     var font = new Font(
       new FontData(
         Generators.timeBasedEpochGenerator().generate().toString(),
