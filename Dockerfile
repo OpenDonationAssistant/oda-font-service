@@ -1,5 +1,5 @@
-FROM eclipse-temurin:21-jdk-jammy
+FROM fedora:41
 WORKDIR /app
-COPY target/oda-font-service-0.2.jar /app
+COPY target/oda-font-service /app
 
-CMD ["java","--add-opens","java.base/java.time=ALL-UNNAMED","-jar","oda-font-service-0.2.jar"]
+CMD ["./oda-font-service"]
