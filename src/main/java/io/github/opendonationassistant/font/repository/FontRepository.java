@@ -1,6 +1,7 @@
 package io.github.opendonationassistant.font.repository;
 
 import com.fasterxml.uuid.Generators;
+
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;

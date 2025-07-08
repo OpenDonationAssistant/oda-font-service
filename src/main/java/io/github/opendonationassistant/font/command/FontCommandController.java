@@ -15,6 +15,7 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,11 @@ public class FontCommandController {
   ) {
     this.fontsource = fontsource;
     this.fontsCache = fontsCache;
+  }
+
+  @PostConstruct
+  public void refresh() {
+    new RefreshCommand().executeOn(fontsource, fontsCache);
   }
 
   @Post("/fonts/commands/refresh")
