@@ -257,7 +257,6 @@
             </goals>
             <configuration>
               <inputSpec>${project.basedir}/target/classes/META-INF/swagger/oda-font-service-1.0.0.yml</inputSpec>
-              <ve
               <generatorName>typescript-axios</generatorName>
               <configurationFile>openapi-config.json</configurationFile>
               <configOptions>
