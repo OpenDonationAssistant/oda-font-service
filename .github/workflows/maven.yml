@@ -14,4 +14,3 @@ jobs:
     with:
       service: font-service
       version: '${{ github.RUN_NUMBER }}'
-      packaging: 'jar'
