@@ -82,15 +82,12 @@ public class UploadCommand extends BaseController {
       );
     }
 
-    repository.create(
-      ownerId.get(),
-      font.getName(),
-      "https://api.oda.digital/files/%s".formatted(name)
-    );
+    var url = "https://api.oda.digital/files/%s".formatted(name);
+    repository.create(ownerId.get(), font.getName(), url);
 
-    return HttpResponse.ok(new UploadCommandResponse(name));
+    return HttpResponse.ok(new UploadCommandResponse(font.getName(), url));
   }
 
   @Serdeable
-  public static record UploadCommandResponse(String path) {}
+  public static record UploadCommandResponse(String name, String path) {}
 }
