@@ -3,6 +3,7 @@ package io.github.opendonationassistant.font;
 import io.github.opendonationassistant.font.repository.Font;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 
 import java.util.HashMap;
@@ -34,6 +35,25 @@ public class FontsCacheConfiguration {
     //       .keyMarshaller(new UTF8StringMarshaller())
     //       .build()
     //   );
+  }
+  @Bean
+  @Named("stored-fonts")
+  public Map<String, Map<String, String>> storedFonts() {
+    return Map.of(
+      "chava-regular",
+      Map.of("truetype", "https://cdn.oda.digital/fonts/Chava-Regular.ttf"),
+      "steelfish-regular",
+      Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Rg.otf"),
+      "steelfish-outline",
+      Map.of(
+        "opentype",
+        "https://cdn.oda.digital/fonts/Steelfish%20Outline.otf"
+      ),
+      "zrnic-regular",
+      Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf"),
+      "supermolot",
+      Map.of("truetype", "https://cdn.oda.digital/fonts/Supermolot.ttf")
+    );
   }
 }
 

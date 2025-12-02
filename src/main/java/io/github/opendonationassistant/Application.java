@@ -27,23 +27,4 @@ public class Application {
     Micronaut.build(args).banner(false).classes(Application.class).start();
   }
 
-  @Bean
-  @Named("stored-fonts")
-  public Map<String, Map<String, String>> storedFonts() {
-    return Map.of(
-      "chava-regular",
-      Map.of("truetype", "https://cdn.oda.digital/fonts/Chava-Regular.ttf"),
-      "steelfish-regular",
-      Map.of("opentype", "https://cdn.oda.digital/fonts/Steelfish%20Rg.otf"),
-      "steelfish-outline",
-      Map.of(
-        "opentype",
-        "https://cdn.oda.digital/fonts/Steelfish%20Outline.otf"
-      ),
-      "zrnic-regular",
-      Map.of("opentype", "https://cdn.oda.digital/fonts/zrnic%20rg.otf"),
-      "supermolot",
-      Map.of("truetype", "https://cdn.oda.digital/fonts/Supermolot.ttf")
-    );
-  }
 }
