@@ -2,6 +2,7 @@ package io.github.opendonationassistant.font.repository;
 
 import com.fasterxml.uuid.Generators;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class FontRepository {
 
   @Inject
   public FontRepository(
-    final Map<String, Map<String, String>> storedFonts,
+    @Named("stored-fonts") final Map<String, Map<String, String>> storedFonts,
     FontDataRepository dataRepository,
     Map<String, List<Font>> fontsCache
   ) {

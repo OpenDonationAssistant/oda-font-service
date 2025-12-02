@@ -32,7 +32,7 @@ public class Font {
 
   public FontDto asDto() {
     return new FontDto(
-      this.data.name(),
+      this.data.id(),
       switch (this.data.recipientId()) {
         case "ODA" -> "stored";
         case "fontsource" -> "google";
