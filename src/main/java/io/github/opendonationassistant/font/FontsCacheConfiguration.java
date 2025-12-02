@@ -1,5 +1,6 @@
 package io.github.opendonationassistant.font;
 
+import io.github.opendonationassistant.font.repository.Font;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import jakarta.inject.Singleton;
@@ -20,7 +21,7 @@ public class FontsCacheConfiguration {
 
   @Bean
   @Singleton
-  public Map<String, List<String>> donatersCache(
+  public Map<String, List<Font>> fontsCache(
     // RemoteCacheManager cacheManager
   ) {
     log.info("creating fonts cache");

@@ -17,19 +17,20 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Map;
 import org.apache.fontbox.ttf.TTFParser;
 import org.apache.fontbox.ttf.TrueTypeFont;
 
 @Controller
-public class UploadCommand extends BaseController {
+public class Upload extends BaseController {
 
-  private final ODALogger log = new ODALogger(UploadCommand.class);
+  private final ODALogger log = new ODALogger(this);
   private final MinioClient minio;
   private final FontRepository repository;
 
   @Inject
-  public UploadCommand(MinioClient minio, FontRepository repository) {
+  public Upload(MinioClient minio, FontRepository repository) {
     this.minio = minio;
     this.repository = repository;
   }
@@ -83,7 +84,12 @@ public class UploadCommand extends BaseController {
     }
 
     var url = "https://api.oda.digital/files/%s".formatted(name);
-    repository.create(ownerId.get(), font.getName(), url);
+    repository.create(
+      ownerId.get(),
+      font.getName(),
+      Map.of("truetype", url),
+      List.of("cyrillic", "latin")
+    );
 
     return HttpResponse.ok(new UploadCommandResponse(font.getName(), url));
   }

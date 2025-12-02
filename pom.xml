@@ -41,13 +41,8 @@
   <dependencies>
     <dependency>
       <groupId>io.github.opendonationassistant</groupId>
-      <artifactId>oda-commons</artifactId>
-      <version>0.7.47</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.opendonationassistant</groupId>
       <artifactId>oda-rabbit-conf</artifactId>
-      <version>0.7.47</version>
+      <version>0.8.110</version>
     </dependency>
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
@@ -176,6 +171,12 @@
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.instancio</groupId>
+      <artifactId>instancio-junit</artifactId>
+      <version>RELEASE</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -264,6 +265,25 @@
                 <npmVersion>${project.version}</npmVersion>
               </configOptions>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.14</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

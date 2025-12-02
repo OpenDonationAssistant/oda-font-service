@@ -26,11 +26,19 @@ public class Font {
     }
   }
 
+  public FontData data() {
+    return this.data;
+  }
+
   public FontDto asDto() {
     return new FontDto(
       this.data.name(),
-      "personal",
-      Map.of("truetype", this.data.url())
+      switch (this.data.recipientId()) {
+        case "ODA" -> "stored";
+        case "fontsource" -> "google";
+        default -> "personal";
+      },
+      this.data.sources()
     );
   }
 }
