@@ -3,11 +3,12 @@ package io.github.opendonationassistant.font.repository;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import io.github.opendonationassistant.font.view.FontDto;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+
+import io.github.opendonationassistant.font.view.FontController.FontDto;
 
 public class FontTest {
 
@@ -66,7 +67,8 @@ public class FontTest {
 
     FontDto dto = new Font(data, repository).asDto();
 
-    assertEquals("ODA Font", dto.name());
+    assertEquals("oda-font-id", dto.name());
+    assertEquals("ODA Font", dto.displayName());
     assertEquals("stored", dto.type());
     assertEquals(
       Map.of("truetype", "http://example.com/oda-font.ttf"),
@@ -87,7 +89,8 @@ public class FontTest {
 
     FontDto dto = new Font(data, repository).asDto();
 
-    assertEquals("Fontsource Font", dto.name());
+    assertEquals("fontsource-font-id", dto.name());
+    assertEquals("Fontsource Font", dto.displayName());
     assertEquals("google", dto.type());
     assertEquals(
       Map.of("truetype", "http://example.com/fontsource-font.ttf"),
@@ -108,7 +111,8 @@ public class FontTest {
 
     FontDto dto = new Font(data, repository).asDto();
 
-    assertEquals("Unknown Font", dto.name());
+    assertEquals("unknown-font-id", dto.name());
+    assertEquals("Unknown Font", dto.displayName());
     assertEquals("personal", dto.type()); // default case
     assertEquals(
       Map.of("truetype", "http://example.com/unknown-font.ttf"),

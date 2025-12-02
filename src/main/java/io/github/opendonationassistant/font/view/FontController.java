@@ -12,8 +12,10 @@ import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.serde.annotation.Serdeable;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
@@ -47,4 +49,12 @@ public class FontController extends BaseController {
         .toList()
     );
   }
+
+  @Serdeable
+  public static record FontDto(
+    String name,
+    String displayName,
+    String type,
+    Map<String, String> sources
+  ) {}
 }

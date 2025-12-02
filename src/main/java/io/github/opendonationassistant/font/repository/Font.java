@@ -1,9 +1,8 @@
 package io.github.opendonationassistant.font.repository;
 
-import io.github.opendonationassistant.font.view.FontDto;
+import io.github.opendonationassistant.font.view.FontController.FontDto;
 import io.micronaut.core.annotation.NonNull;
 import jakarta.annotation.Nonnull;
-import java.util.Map;
 import java.util.Optional;
 
 public class Font {
@@ -33,6 +32,7 @@ public class Font {
   public FontDto asDto() {
     return new FontDto(
       this.data.id(),
+      this.data.name(),
       switch (this.data.recipientId()) {
         case "ODA" -> "stored";
         case "fontsource" -> "google";

@@ -1,18 +1,14 @@
 package io.github.opendonationassistant.font.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
+import io.github.opendonationassistant.font.view.FontController.FontDto;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.security.authentication.Authentication;
 import java.util.List;
