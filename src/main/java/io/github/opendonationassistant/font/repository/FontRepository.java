@@ -1,6 +1,8 @@
 package io.github.opendonationassistant.font.repository;
 
 import com.fasterxml.uuid.Generators;
+
+import io.github.opendonationassistant.commons.logging.ODALogger;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
@@ -12,6 +14,7 @@ import org.jspecify.annotations.Nullable;
 @Singleton
 public class FontRepository {
 
+  private final ODALogger log = new ODALogger(this);
   private final Map<String, Map<String, String>> storedFonts;
   private final FontDataRepository dataRepository;
   private final Map<String, List<Font>> fontsCache;
@@ -23,6 +26,7 @@ public class FontRepository {
     Map<String, List<Font>> fontsCache
   ) {
     this.storedFonts = storedFonts;
+    log.info("Loaded stored fonts", Map.of("amount", storedFonts.size()));
     this.dataRepository = dataRepository;
     this.fontsCache = fontsCache;
   }

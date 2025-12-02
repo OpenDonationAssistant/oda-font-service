@@ -9,9 +9,6 @@ import io.micronaut.runtime.Micronaut;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.info.*;
 import jakarta.inject.Named;
-import jakarta.inject.Qualifier;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @OpenAPIDefinition(info = @Info(title = "oda-font-service"))
