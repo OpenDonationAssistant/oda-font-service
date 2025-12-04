@@ -21,6 +21,7 @@ public class FontTest {
       "test-recipient",
       "New Font",
       "http://example.com/new-font.ttf",
+      "category",
       Map.of("truetype", "http://example.com/new-font.ttf"),
       List.of("latin")
     );
@@ -41,6 +42,7 @@ public class FontTest {
       "test-recipient",
       "Existing Font",
       "http://example.com/existing-font.ttf",
+      "category",
       Map.of("truetype", "http://example.com/existing-font.ttf"),
       List.of("latin")
     );
@@ -61,6 +63,7 @@ public class FontTest {
       "ODA",
       "ODA Font",
       "",
+      "category",
       Map.of("truetype", "http://example.com/oda-font.ttf"),
       List.of("latin", "cyrillic")
     );
@@ -83,6 +86,7 @@ public class FontTest {
       "fontsource",
       "Fontsource Font",
       "",
+      "category",
       Map.of("truetype", "http://example.com/fontsource-font.ttf"),
       List.of("latin")
     );
@@ -105,6 +109,7 @@ public class FontTest {
       "unknown-recipient",
       "Unknown Font",
       "",
+      "category",
       Map.of("truetype", "http://example.com/unknown-font.ttf"),
       List.of("latin")
     );

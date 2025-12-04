@@ -3,7 +3,7 @@ package io.github.opendonationassistant.font.repository;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import io.github.opendonationassistant.commons.logging.ODALogger;
+import io.github.opendonationassistant.font.repository.FontRepository.Filters;
 import java.util.*;
 import org.instancio.Instancio;
 import org.instancio.Select;
@@ -14,8 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(InstancioExtension.class)
 public class FontRepositoryTest {
-
-  private final ODALogger log = new ODALogger(this);
 
   private Map<String, Map<String, String>> storedFonts = new HashMap<>();
   private Map<String, List<Font>> fontsCache = new HashMap<>();
@@ -56,6 +54,7 @@ public class FontRepositoryTest {
       recipientId,
       name,
       "",
+      "",
       sources,
       subsets
     );
@@ -78,7 +77,7 @@ public class FontRepositoryTest {
 
     var actualFonts = new ArrayList<>(
       new FontRepository(storedFonts, mockDataRepository, fontsCache)
-        .list("recipientId", null, null)
+        .list("recipientId", new Filters(null, null, null))
         .stream()
         .map(Font::data)
         .toList()
@@ -92,6 +91,7 @@ public class FontRepositoryTest {
         fontName,
         "ODA",
         fontName,
+        "",
         "",
         Map.of(fontType, fontUrl),
         List.of("cyrillic", "latin")
@@ -149,6 +149,7 @@ public class FontRepositoryTest {
         "ODA",
         "font-name",
         "",
+        "",
         Map.of("font-type", "font-url"),
         List.of("cyrillic", "latin")
       )
@@ -157,7 +158,7 @@ public class FontRepositoryTest {
 
     var actualFonts = new ArrayList<>(
       fontRepository
-        .list("recipientId", "cyrillic", null)
+        .list("recipientId", new Filters("cyrillic", null, null))
         .stream()
         .map(Font::data)
         .toList()
@@ -214,6 +215,7 @@ public class FontRepositoryTest {
         "ODA",
         "3-test-3",
         "",
+        "",
         Map.of("font-type", "font-url"),
         List.of("cyrillic", "latin")
       )
@@ -222,7 +224,7 @@ public class FontRepositoryTest {
 
     var actualFonts = new ArrayList<>(
       fontRepository
-        .list("recipientId", null, "test")
+        .list("recipientId", new Filters(null, null, "test"))
         .stream()
         .map(Font::data)
         .toList()
@@ -232,10 +234,66 @@ public class FontRepositoryTest {
   }
 
   @Test
-  public void testListingBySubsetAndName() {
+  public void testListingFontsByCategory() {
+    final List<FontData> targetPersonalFonts = Instancio.of(FontData.class)
+      .set(Select.field(FontData::category), "display")
+      .stream()
+      .limit(1)
+      .toList();
+    final List<FontData> nonTargetPersonalFonts = Instancio.of(FontData.class)
+      .set(Select.field(FontData::name), "unreachable")
+      .stream()
+      .limit(20)
+      .toList();
+    final List<FontData> personalFonts = new ArrayList<>();
+    personalFonts.addAll(targetPersonalFonts);
+    personalFonts.addAll(nonTargetPersonalFonts);
+    when(mockDataRepository.findByRecipientId(any())).thenReturn(personalFonts);
+
+    final List<Font> targetFontsourceFonts = Instancio.of(FontData.class)
+      .set(Select.field(FontData::category), "display")
+      .stream()
+      .limit(3)
+      .map(data -> new Font(data, mockDataRepository))
+      .toList();
+    final List<Font> nonTargetFontsourceFonts = Instancio.of(FontData.class)
+      .set(Select.field(FontData::name), "unreachable")
+      .stream()
+      .limit(20)
+      .map(data -> new Font(data, mockDataRepository))
+      .toList();
+    final List<Font> fontsourceFonts = new ArrayList<>();
+    fontsourceFonts.addAll(targetFontsourceFonts);
+    fontsourceFonts.addAll(nonTargetFontsourceFonts);
+    fontsCache.put("fontsource", fontsourceFonts);
+
+    storedFonts.put("3-test-3", Map.of("font-type", "font-url"));
+    storedFonts.put("unreachable-name", Map.of("font-type", "font-url"));
+
+    final List<FontData> expectedFonts = new ArrayList<>();
+    expectedFonts.addAll(targetPersonalFonts);
+    expectedFonts.addAll(
+      targetFontsourceFonts.stream().map(Font::data).toList()
+    );
+    expectedFonts.sort(Comparator.comparing(FontData::id));
+
+    var actualFonts = new ArrayList<>(
+      fontRepository
+        .list("recipientId", new Filters(null, "display", null))
+        .stream()
+        .map(Font::data)
+        .toList()
+    );
+    actualFonts.sort(Comparator.comparing(FontData::id));
+    assertEquals(expectedFonts, actualFonts);
+  }
+
+  @Test
+  public void testListingBySubsetAndNameAndCategory() {
     final List<FontData> targetPersonalFonts = Instancio.of(FontData.class)
       .set(Select.field(FontData::name), "test-1")
       .set(Select.field(FontData::subsets), List.of("cyrillic"))
+      .set(Select.field(FontData::category), "display")
       .stream()
       .limit(1)
       .toList();
@@ -257,6 +315,13 @@ public class FontRepositoryTest {
     );
     personalFonts.addAll(
       Instancio.of(FontData.class)
+        .set(Select.field(FontData::category), "display")
+        .stream()
+        .limit(1)
+        .toList()
+    );
+    personalFonts.addAll(
+      Instancio.of(FontData.class)
         .set(Select.field(FontData::name), "unreachable-1")
         .set(Select.field(FontData::subsets), List.of("latin"))
         .stream()
@@ -268,6 +333,7 @@ public class FontRepositoryTest {
     final List<Font> targetFontsourceFonts = Instancio.of(FontData.class)
       .set(Select.field(FontData::name), "test")
       .set(Select.field(FontData::subsets), List.of("cyrillic", "latin"))
+      .set(Select.field(FontData::category), "display")
       .stream()
       .limit(1)
       .map(data -> new Font(data, mockDataRepository))
@@ -292,6 +358,14 @@ public class FontRepositoryTest {
     );
     fontsourceFonts.addAll(
       Instancio.of(FontData.class)
+        .set(Select.field(FontData::category), "display")
+        .stream()
+        .limit(3)
+        .map(data -> new Font(data, mockDataRepository))
+        .toList()
+    );
+    fontsourceFonts.addAll(
+      Instancio.of(FontData.class)
         .set(Select.field(FontData::name), "unreachable")
         .set(Select.field(FontData::subsets), List.of("latin"))
         .stream()
@@ -309,21 +383,11 @@ public class FontRepositoryTest {
     expectedFonts.addAll(
       targetFontsourceFonts.stream().map(Font::data).toList()
     );
-    expectedFonts.add(
-      new FontData(
-        "3-test-3",
-        "ODA",
-        "3-test-3",
-        "",
-        Map.of("font-type", "font-url"),
-        List.of("cyrillic", "latin")
-      )
-    );
     expectedFonts.sort(Comparator.comparing(FontData::id));
 
     var actualFonts = new ArrayList<>(
       fontRepository
-        .list("recipientId", "cyrillic", "test")
+        .list("recipientId", new Filters("cyrillic", "display", "test"))
         .stream()
         .map(Font::data)
         .toList()

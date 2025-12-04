@@ -3,6 +3,7 @@ package io.github.opendonationassistant.font.view;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
+import io.github.opendonationassistant.font.repository.FontRepository.Filters;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -35,6 +36,7 @@ public class FontController extends BaseController {
   public HttpResponse<List<FontDto>> listFonts(
     Authentication auth,
     @QueryValue("subset") @Nullable String subset,
+    @QueryValue("category") @Nullable String category,
     @QueryValue("name") @Nullable String name
   ) {
     final Optional<String> ownerId = getOwnerId(auth);
@@ -43,7 +45,7 @@ public class FontController extends BaseController {
     }
     return HttpResponse.ok(
       repository
-        .list(ownerId.get(), subset, name)
+        .list(ownerId.get(), new Filters(subset, category, name))
         .stream()
         .map(Font::asDto)
         .toList()

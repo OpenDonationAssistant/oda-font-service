@@ -50,6 +50,7 @@ public class Refresh extends BaseController {
             "fontsource",
             font.family(),
             "",
+            font.category(),
             Map.of(),
             font.subsets()
           )

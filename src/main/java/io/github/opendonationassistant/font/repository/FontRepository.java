@@ -1,8 +1,8 @@
 package io.github.opendonationassistant.font.repository;
 
 import com.fasterxml.uuid.Generators;
-
 import io.github.opendonationassistant.commons.logging.ODALogger;
+import io.micronaut.serde.annotation.Serdeable;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
@@ -43,6 +43,7 @@ public class FontRepository {
         recipientId,
         name,
         "",
+        "",
         sources,
         subsets
       )
@@ -51,12 +52,14 @@ public class FontRepository {
     return font;
   }
 
-  public List<Font> list(
-    String recipientId,
-    @Nullable String subset,
-    @Nullable String name
-  ) {
+  public List<Font> list(String recipientId, Filters filters) {
     List<Font> fonts = new ArrayList<Font>();
+    fonts.addAll(
+      this.dataRepository.findByRecipientId(recipientId)
+        .stream()
+        .map(this::from)
+        .toList()
+    );
     fonts.addAll(
       storedFonts
         .entrySet()
@@ -67,6 +70,7 @@ public class FontRepository {
             "ODA",
             entry.getKey(),
             "",
+            "",
             entry.getValue(),
             List.of("cyrillic", "latin")
           )
@@ -75,22 +79,22 @@ public class FontRepository {
         .toList()
     );
     fonts.addAll(fontsCache.getOrDefault("fontsource", List.of()));
-    fonts.addAll(
-      this.dataRepository.findByRecipientId(recipientId)
-        .stream()
-        .map(this::from)
-        .toList()
-    );
-    if (subset != null) {
+    if (filters.subset() != null) {
       fonts = fonts
         .stream()
-        .filter(font -> font.data().subsets().contains(subset))
+        .filter(font -> font.data().subsets().contains(filters.subset()))
         .toList();
     }
-    if (name != null) {
+    if (filters.name() != null) {
       fonts = fonts
         .stream()
-        .filter(font -> font.data().name().contains(name))
+        .filter(font -> font.data().name().contains(filters.name()))
+        .toList();
+    }
+    if (filters.category() != null) {
+      fonts = fonts
+        .stream()
+        .filter(font -> font.data().category().equals(filters.category()))
         .toList();
     }
     return fonts;
@@ -99,4 +103,11 @@ public class FontRepository {
   public Font from(FontData data) {
     return new Font(data, dataRepository);
   }
+
+  @Serdeable
+  public static record Filters(
+    @Nullable String subset,
+    @Nullable String category,
+    @Nullable String name
+  ) {}
 }

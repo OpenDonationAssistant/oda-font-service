@@ -8,13 +8,13 @@ import static org.mockito.Mockito.when;
 
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
+import io.github.opendonationassistant.font.repository.FontRepository.Filters;
 import io.github.opendonationassistant.font.view.FontController.FontDto;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.security.authentication.Authentication;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.instancio.junit.Given;
 import org.instancio.junit.InstancioExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,28 +41,31 @@ public class FontControllerTest {
   @Test
   public void testListFonts(
     @Given String subset,
+    @Given String category,
     @Given String name
   ) {
-    when(repository.list(any(), any(), any())).thenReturn(List.of(mockFont));
+    when(repository.list(any(), any())).thenReturn(List.of(mockFont));
     when(mockFont.asDto()).thenReturn(mockDto);
 
     HttpResponse<List<FontDto>> response = fontController.listFonts(
       authentication,
       subset,
+      category,
       name
     );
 
-    verify(repository).list(recipientId, subset, name);
+    verify(repository).list(recipientId, new Filters(subset, category, name));
     assertEquals(200, response.getStatus().getCode());
     assertEquals(Optional.of(List.of(mockDto)), response.getBody());
   }
 
   @Test
   public void testListFontsWithEmptyFontList() {
-    when(repository.list(any(), any(), any())).thenReturn(List.of());
+    when(repository.list(any(), any())).thenReturn(List.of());
 
     HttpResponse<List<FontDto>> response = fontController.listFonts(
       authentication,
+      null,
       null,
       null
     );
@@ -79,6 +82,7 @@ public class FontControllerTest {
     HttpResponse<List<FontDto>> response = fontController.listFonts(
       wrongAuthentication,
       null,
+      null,
       null
     );
 
@@ -90,9 +94,9 @@ public class FontControllerTest {
     HttpResponse<List<FontDto>> response = fontController.listFonts(
       null,
       null,
+      null,
       null
     );
     assertEquals(401, response.getStatus().getCode());
   }
-
 }

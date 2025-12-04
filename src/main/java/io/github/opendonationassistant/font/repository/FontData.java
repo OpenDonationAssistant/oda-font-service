@@ -16,6 +16,7 @@ public record FontData(
   @MappedProperty("recipient_id") String recipientId,
   String name,
   String url,
+  String category,
   @MappedProperty(value = "sources", type = DataType.JSON)
   Map<String, String> sources,
   @MappedProperty(value = "subsets", type = DataType.JSON)
