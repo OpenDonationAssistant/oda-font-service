@@ -5,6 +5,7 @@ import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
+import io.github.opendonationassistant.font.view.FontController.FontDto;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -42,7 +43,7 @@ public class Upload extends BaseController {
     consumes = { MediaType.MULTIPART_FORM_DATA },
     produces = { MediaType.APPLICATION_JSON }
   )
-  public HttpResponse<UploadCommandResponse> put(
+  public HttpResponse<FontDto> put(
     CompletedFileUpload file,
     Authentication auth
   ) throws Exception {
@@ -92,9 +93,6 @@ public class Upload extends BaseController {
       List.of("cyrillic", "latin")
     );
 
-    return HttpResponse.ok(new UploadCommandResponse(created.data().id(), url));
+    return HttpResponse.ok(created.asDto());
   }
-
-  @Serdeable
-  public static record UploadCommandResponse(String name, String path) {}
 }
