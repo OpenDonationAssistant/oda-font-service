@@ -3,6 +3,7 @@ package io.github.opendonationassistant.font.command;
 import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
+import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
@@ -57,7 +58,7 @@ public class Upload extends BaseController {
     );
     log.info("Uploading font", Map.of("family", font.getName()));
 
-    var name =
+    var fileName =
       "%s.ttf".formatted(
           Generators.timeBasedEpochGenerator().generate().toString()
         );
@@ -65,7 +66,7 @@ public class Upload extends BaseController {
       minio.putObject(
         PutObjectArgs.builder()
           .bucket(ownerId.get())
-          .object(name)
+          .object(fileName)
           .contentType(MediaType.APPLICATION_OCTET_STREAM)
           .stream(stream, stream.available(), -1)
           .build()
@@ -76,22 +77,22 @@ public class Upload extends BaseController {
           "recipientId",
           ownerId.get(),
           "path",
-          name,
+          fileName,
           "family",
           font.getName()
         )
       );
     }
 
-    var url = "https://api.oda.digital/files/%s".formatted(name);
-    repository.create(
+    var url = "https://api.oda.digital/files/%s".formatted(fileName);
+    final Font created = repository.create(
       ownerId.get(),
       font.getName(),
       Map.of("truetype", url),
       List.of("cyrillic", "latin")
     );
 
-    return HttpResponse.ok(new UploadCommandResponse(font.getName(), url));
+    return HttpResponse.ok(new UploadCommandResponse(created.data().id(), url));
   }
 
   @Serdeable
