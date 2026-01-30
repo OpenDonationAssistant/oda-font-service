@@ -24,3 +24,8 @@ flyway:
     default:
       enabled: true
       baseline-on-migrate: true
+endpoints:
+  prometheus:
+    sensitive: false
+  metrics:
+    sensitive: false
