@@ -10,8 +10,11 @@ import org.infinispan.client.hotrod.impl.ConfigurationProperties;
 @Factory
 public class CacheConfiguration {
 
-  @Value("${infinispan.url}")
-  public String url;
+  private final String url;
+
+  public CacheConfiguration(@Value("${infinispan.url}") String url) {
+    this.url = url;
+  }
 
   // @Bean
   public RemoteCacheManager cacheManager() {
@@ -38,4 +41,3 @@ public class CacheConfiguration {
     return cacheManager;
   }
 }
-

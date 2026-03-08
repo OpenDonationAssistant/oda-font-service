@@ -5,7 +5,6 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class FontsCacheConfiguration {
   public Map<String, List<Font>> fontsCache(
     // RemoteCacheManager cacheManager
   ) {
-    log.info("creating fonts cache");
+    log.info("Creating fonts cache");
     return new HashMap<>();
     // return cacheManager
     //   .getCache(DONATERS_CACHE_NAME)
@@ -36,6 +35,7 @@ public class FontsCacheConfiguration {
     //       .build()
     //   );
   }
+
   @Bean
   @Named("stored-fonts")
   public Map<String, Map<String, String>> storedFonts() {
@@ -56,4 +56,3 @@ public class FontsCacheConfiguration {
     );
   }
 }
-

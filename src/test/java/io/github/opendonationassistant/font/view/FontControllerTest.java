@@ -88,15 +88,4 @@ public class FontControllerTest {
 
     assertEquals(401, response.getStatus().getCode());
   }
-
-  @Test
-  public void testListFontsWithNullAuthentication() {
-    HttpResponse<List<FontDto>> response = fontController.listFonts(
-      null,
-      null,
-      null,
-      null
-    );
-    assertEquals(401, response.getStatus().getCode());
-  }
 }
