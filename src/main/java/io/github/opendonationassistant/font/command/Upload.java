@@ -14,7 +14,6 @@ import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
-import io.micronaut.serde.annotation.Serdeable;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;

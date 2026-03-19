@@ -1,64 +1,33 @@
 # ODA Font Service
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/OpenDonationAssistant/oda-font-service)
 
-## Micronaut 4.7.4 Documentation
+## Running with Docker
 
-- [User Guide](https://docs.micronaut.io/4.7.4/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.7.4/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.7.4/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+The Docker image is published to GitHub Container Registry. Pull and run with:
 
-- [Micronaut Maven Plugin documentation](https://micronaut-projects.github.io/micronaut-maven-plugin/latest/)
-## Feature control-panel documentation
+```bash
+docker run -d \
+  --name oda-font-service \
+  -e JDBC_URL=jdbc:postgresql://<postgres-host>:5432/<database>?currentSchema=fonts \
+  -e JDBC_USER=<db-username> \
+  -e JDBC_PASSWORD=<db-password> \
+  -e INFINISPAN_HOST=<infinispan-host> \
+  -e MINIO_ENDPOINT=<minio-endpoint> \
+  -e MINIO_USERNAME=<minio-username> \
+  -e MINIO_PASSWORD=<minio-password> \
+  ghcr.io/opendonationassistant/font-service:latest
+```
 
-- [Micronaut Control Panel documentation](https://micronaut-projects.github.io/micronaut-control-panel/latest/guide/index.html)
+### Required Environment Variables
 
-
-## Feature maven-enforcer-plugin documentation
-
-- [https://maven.apache.org/enforcer/maven-enforcer-plugin/](https://maven.apache.org/enforcer/maven-enforcer-plugin/)
-
-
-## Feature http-client documentation
-
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#nettyHttpClient)
-
-
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-
-## Feature problem-json documentation
-
-- [Micronaut Problem JSON documentation](https://micronaut-projects.github.io/micronaut-problem-json/latest/guide/index.html)
-
-
-## Feature mockito documentation
-
-- [https://site.mockito.org](https://site.mockito.org)
-
-
-## Feature test-resources documentation
-
-- [Micronaut Test Resources documentation](https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/)
-
-
-## Feature management documentation
-
-- [Micronaut Management documentation](https://docs.micronaut.io/latest/guide/index.html#management)
-
-
-## Feature security-jwt documentation
-
-- [Micronaut Security JWT documentation](https://micronaut-projects.github.io/micronaut-security/latest/guide/index.html)
-
-
-## Feature openapi documentation
-
-- [Micronaut OpenAPI Support documentation](https://micronaut-projects.github.io/micronaut-openapi/latest/guide/index.html)
-
-- [https://www.openapis.org](https://www.openapis.org)
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `JDBC_URL` | PostgreSQL JDBC connection URL | `jdbc:postgresql://localhost:5432/postgres?currentSchema=fonts` |
+| `JDBC_USER` | Database username | `postgres` |
+| `JDBC_PASSWORD` | Database password | `postgres` |
+| `INFINISPAN_HOST` | Infinispan cache host | `127.0.0.1` |
+| `MINIO_ENDPOINT` | MinIO object storage endpoint | `http://localhost:9000` |
+| `MINIO_USERNAME` | MinIO access key | `minioadmin` |
+| `MINIO_PASSWORD` | MinIO secret key | `minioadmin` |
 
 
