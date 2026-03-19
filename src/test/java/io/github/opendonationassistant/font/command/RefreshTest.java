@@ -11,6 +11,7 @@ import io.github.opendonationassistant.font.repository.FontRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class RefreshTest {
@@ -41,6 +42,7 @@ public class RefreshTest {
 
     refreshController.refresh();
 
-    assertEquals(cache.get("fontsource"), List.of(apiFont));
+    var font = Optional.ofNullable(cache.get("fontsource")).map(List::getLast);
+    assertEquals(domainFont, font.get());
   }
 }

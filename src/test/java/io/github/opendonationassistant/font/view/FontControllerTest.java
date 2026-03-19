@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
 import io.github.opendonationassistant.font.repository.FontRepository.Filters;
-import io.github.opendonationassistant.font.view.FontController.FontDto;
+import io.github.opendonationassistant.font.api.FontApi.FontDto;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.security.authentication.Authentication;
 import java.util.List;

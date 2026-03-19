@@ -1,6 +1,6 @@
 package io.github.opendonationassistant.font.repository;
 
-import io.github.opendonationassistant.font.view.FontController.FontDto;
+import io.github.opendonationassistant.font.api.FontApi.FontDto;
 import io.micronaut.core.annotation.NonNull;
 import jakarta.annotation.Nonnull;
 import java.util.Optional;

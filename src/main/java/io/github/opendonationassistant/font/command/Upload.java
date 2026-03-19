@@ -3,17 +3,15 @@ package io.github.opendonationassistant.font.command;
 import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
+import io.github.opendonationassistant.font.api.FontApi.FontDto;
+import io.github.opendonationassistant.font.api.UploadApi;
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontRepository;
-import io.github.opendonationassistant.font.view.FontController.FontDto;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Put;
 import io.micronaut.http.multipart.CompletedFileUpload;
-import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
-import io.micronaut.security.rules.SecurityRule;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;
@@ -24,7 +22,7 @@ import org.apache.fontbox.ttf.TTFParser;
 import org.apache.fontbox.ttf.TrueTypeFont;
 
 @Controller
-public class Upload extends BaseController {
+public class Upload extends BaseController implements UploadApi {
 
   private final ODALogger log = new ODALogger(this);
   private final MinioClient minio;
@@ -36,13 +34,8 @@ public class Upload extends BaseController {
     this.repository = repository;
   }
 
-  @Secured(SecurityRule.IS_AUTHENTICATED)
-  @Put(
-    value = "/fonts/commands/upload",
-    consumes = { MediaType.MULTIPART_FORM_DATA },
-    produces = { MediaType.APPLICATION_JSON }
-  )
-  public HttpResponse<FontDto> put(
+  @Override
+  public HttpResponse<FontDto> upload(
     CompletedFileUpload file,
     Authentication auth
   ) throws Exception {

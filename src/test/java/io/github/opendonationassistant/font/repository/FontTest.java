@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-import io.github.opendonationassistant.font.view.FontController.FontDto;
+import io.github.opendonationassistant.font.api.FontApi.FontDto;
 
 public class FontTest {
 

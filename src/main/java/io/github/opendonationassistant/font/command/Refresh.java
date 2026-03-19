@@ -2,12 +2,12 @@ package io.github.opendonationassistant.font.command;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
+import io.github.opendonationassistant.font.api.RefreshApi;
 import io.github.opendonationassistant.font.integration.FontsourceApi;
 import io.github.opendonationassistant.font.repository.Font;
 import io.github.opendonationassistant.font.repository.FontData;
 import io.github.opendonationassistant.font.repository.FontRepository;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Post;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class Refresh extends BaseController {
+public class Refresh extends BaseController implements RefreshApi {
 
   private ODALogger log = new ODALogger(this);
   private final FontsourceApi fontsource;
@@ -35,8 +35,7 @@ public class Refresh extends BaseController {
     this.repository = repository;
   }
 
-  @Post("/fonts/commands/refresh")
-  @Secured(SecurityRule.IS_ANONYMOUS)
+  @Override
   @ExecuteOn(TaskExecutors.BLOCKING)
   public void refresh() {
     log.info("Refreshing fonts", Map.of());
