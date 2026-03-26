@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Fonts Commands", description = "Font management commands")
+@Tag(name = "Fonts", description = "Font management commands")
 @SecurityRequirement(name = "BearerAuth")
 public interface UploadApi {
 
