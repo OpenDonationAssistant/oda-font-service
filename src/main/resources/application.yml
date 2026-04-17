@@ -24,6 +24,8 @@ flyway:
     default:
       enabled: true
       baseline-on-migrate: true
+      schemas: 'fonts'
+      default-schema: 'fonts'
 endpoints:
   prometheus:
     sensitive: false
